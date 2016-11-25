@@ -17,12 +17,13 @@ class HTTPDownloader:
     def build_request(self):
         req = request.Request(self.url)
         req.headers['Range'] = 'bytes=%s-%s' % self._range
-        return request.urlopen(req)
+        return req
 
     def get_response(self):
-        request = self.build_request()
+        req = self.build_request()
+        response = request.urlopen(req)
         try:
-            chunk = request.read()
+            chunk = response.read()
         except client.IncompleteRead as e:
             chunk = e.partial
         return chunk

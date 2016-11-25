@@ -19,15 +19,20 @@ class TestHTTP(unittest.TestCase):
         self.assertEqual(self.downloader._range[0], 0)
         self.assertEqual(self.downloader._range[1], self.size - 1)
 
-    def test_request(self):
-        self.assertEqual(self.downloader.build_request().headers[0], 1)
-
     @patch('core.downloader.HTTPDownloader.get_response', return_value=CHUNK)
     def test_new_range(self, read):
         self.downloader.download_chunk()
         self.assertEqual(self.downloader._range[0], len(CHUNK))
         self.assertEqual(
             self.downloader._range[1], len(CHUNK) + self.size - 1)
+
+    @patch('core.downloader.HTTPDownloader.get_response', return_value=CHUNK)
+    def test_last_chunk(self, read):
+        self.downloader.download_chunk()
+        self.assertEqual(self.downloader.last_chunk, CHUNK)
+
+    def test_request(self):
+        self.assertTrue("Range" in self.downloader.build_request().headers)
 
 
 if __name__ == '__main__':
