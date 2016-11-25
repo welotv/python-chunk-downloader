@@ -12,7 +12,7 @@ if __name__ == "__main__":
     url, chunk_length = sys.argv[1:]
     chunk_length = int(chunk_length)
     i = 0
-    while (True):
+    while True:
         content = download_chunk(url, i*chunk_length, (i+1)*chunk_length)
         if not content:
             break
