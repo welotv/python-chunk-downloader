@@ -1,36 +1,20 @@
 import urllib2
-import sys
 
 
 class HTTPDownloader:
 
-    def __init__(self, url):
+    def __init__(self, url, size):
         self.url = url
         self.last_byte = 0
+        self.size = size
 
-    def get_chunk(self, size):
-        req = urllib2.Request(url)
+    def get_chunk(self):
+        req = urllib2.Request(self.url)
 
-        new_last_byte = self.last_byte + size
+        new_last_byte = self.last_byte + self.size
         req.headers['Range'] = 'bytes=%s-%s' % (
             self.last_byte, new_last_byte - 1)
         self.last_byte = new_last_byte
 
         f = urllib2.urlopen(req)
         return f.read()
-
-
-def parse_arguments():
-    url, chunk_length = sys.argv[1:]
-    chunk_length = int(chunk_length)
-    return url, chunk_length
-
-
-if __name__ == "__main__":
-    url, chunk_length = parse_arguments()
-    downloader = HTTPDownloader(url)
-    while True:
-        content = downloader.get_chunk(chunk_length)
-        if not content:
-            break
-        print (len(content))

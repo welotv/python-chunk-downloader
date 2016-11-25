@@ -1,9 +1,5 @@
 # Install
 
-pip install -r requirements
-cd lib
-git clone https://github.com/smgoller/rangehttpserver.git
-
 
 # Test with simple server
 

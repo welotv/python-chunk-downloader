@@ -1,20 +1,22 @@
-import urllib2
 import sys
+import time
+
+from core.downloader import HTTPDownloader
 
 
-def download_chunk(url, start, end):
-    req = urllib2.Request(url)
-    req.headers['Range'] = 'bytes=%s-%s' % (start, end - 1)
-    f = urllib2.urlopen(req)
-    return f.read()
-
-if __name__ == "__main__":
+def parse_arguments():
     url, chunk_length = sys.argv[1:]
     chunk_length = int(chunk_length)
-    i = 0
+    return url, chunk_length
+
+
+if __name__ == "__main__":
+    url, chunk_length = parse_arguments()
+    downloader = HTTPDownloader(url, chunk_length)
     while True:
-        content = download_chunk(url, i*chunk_length, (i+1)*chunk_length)
-        if not content:
-            break
-        print (len(content))
-        i += 1
+        content = downloader.get_chunk()
+        if content:
+            print (len(content))
+        else:
+            print ("---")
+            time.sleep(1)
