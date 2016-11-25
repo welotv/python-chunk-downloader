@@ -4,7 +4,7 @@
 # Test with simple server
 
 cd input
-python ../lib/rangehttpserver/RangeHTTPServer.py  8100
+python ../contrib/rangehttpserver/RangeHTTPServer.py  8100
 
 
 # Test with simple file

@@ -14,7 +14,8 @@ if __name__ == "__main__":
     url, chunk_length = parse_arguments()
     downloader = HTTPDownloader(url, chunk_length)
     while True:
-        content = downloader.get_chunk()
+        downloader.download_chunk()
+        content = downloader.last_chunk
         if content:
             print (len(content))
         else:
