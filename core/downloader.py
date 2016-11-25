@@ -20,14 +20,14 @@ class HTTPDownloader:
         return f.read()
 
 
-def parse_arguments(args):
-    url, chunk_length = args
+def parse_arguments():
+    url, chunk_length = sys.argv[1:]
     chunk_length = int(chunk_length)
     return url, chunk_length
 
 
 if __name__ == "__main__":
-    url, chunk_length = parse_arguments(sys.argv[1:])
+    url, chunk_length = parse_arguments()
     downloader = HTTPDownloader(url)
     while True:
         content = downloader.get_chunk(chunk_length)
