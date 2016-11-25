@@ -16,10 +16,12 @@ class HTTPDownloader:
     def range_(self):
         return (self.last_byte, self.new_last_byte - 1)
 
-    def get_chunk(self):
+    def get_request(self):
         req = urllib2.Request(self.url)
         req.headers['Range'] = 'bytes=%s-%s' % self.range_
-        f = urllib2.urlopen(req)
-        self.last_byte = self.new_last_byte
+        return urllib2.urlopen(req)
 
-        return f.read()
+    def get_chunk(self):
+        request = self.get_request()
+        self.last_byte = self.new_last_byte
+        return request.read()
