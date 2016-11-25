@@ -1,0 +1,21 @@
+# Install
+
+pip install -r requirements
+cd lib
+git clone https://github.com/smgoller/rangehttpserver.git
+
+
+# Test with simple server
+
+cd input
+python ../lib/rangehttpserver/RangeHTTPServer.py  8100
+
+
+# Test with simple file
+
+rsync --inplace --bwlimit=100 somefile.mp4 input/example.mp4 
+
+
+# Test download
+
+python test.py http://localhost:8100/example.mp4 50000
